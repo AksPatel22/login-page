@@ -2,24 +2,35 @@ import React, { useState } from "react";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { IoLockOpenSharp } from "react-icons/io5";
 import data from "./data";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Form = () => {
+const Form = ({
+  setIsValidCred,
+  setIsValidEmail,
+  isValidCred,
+  isValidEmail,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [isValidCred, setIsValidCred] = useState(true);
+  const [status, setStatus] = useState(false);
+  //   const [isValidEmail, setIsValidEmail] = useState(true);
+  //   const [isValidCred, setIsValidCred] = useState(true);
   let userData = [];
 
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     setEmail(email);
     setPassword(password);
     validateCredentials(email, password);
+    setStatus(true);
+    if (isValidCred) {
+      navigate("/welcome", { replace: true });
+    }
   };
 
   const validateCredentials = (email, password) => {
-    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       setIsValidEmail(true);
       // console.log("valid email");
       const temp = data.filter((item) => {
@@ -73,10 +84,15 @@ const Form = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <p className={!isValidEmail || !isValidCred ? "show" : "dont-show"}>
+
+        <p
+          className={
+            (!isValidEmail || !isValidCred) && status ? "show" : "dont-show"
+          }
+        >
           {!isValidCred ? "invaid email id or password" : "invalid email id"}
         </p>
-        {/* <Status isValidCred={isValidCred} isValidEmail={isValidEmail}></Status> */}
+
         <div className="form-control">
           <div className="flex-container">
             <input type="checkbox" />
@@ -85,9 +101,11 @@ const Form = () => {
           <a href="#">Forgot Password?</a>
         </div>
         <div className="btn-container">
+          {/* <Link to={isValidCred ? "/welcome" : ""}> */}
           <button type="submit" className="submit-btn">
-            <Link to={isValidCred ? "/welcome" : ""}>Log In</Link>
+            Log In
           </button>
+          {/* </Link> */}
         </div>
         <div className="new-user">
           <a href="#"> New User</a>

@@ -62,9 +62,10 @@ input:focus {
   transition: all 0.5s 0.5s ease-in-out;
 }
 .submit-btn:hover {
-  color: #d1495b;
   background-color: #beb7a4;
+  color: #d1495b;
 }
+
 .icon {
   background-color: #d1495b;
   color: #beb7a4;

@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Welcome = () => {
+const Welcome = ({ isValidCred }) => {
   const navigate = useNavigate();
+  const temp = "";
   useEffect(() => {
-    setTimeout(() => {
-      // 👇 Redirects to about page, note the `replace: true`
+    if (!isValidCred) {
       navigate("/", { replace: true });
-    }, 3000);
+    }
   }, []);
+
+  if (!isValidCred) {
+    return <p>{temp}</p>;
+  }
   return <div>Welcome</div>;
 };
 
